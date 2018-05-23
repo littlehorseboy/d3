@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <svg id="s"></svg>
+
+  <script>
+    const data = [
+      { x: 0, y: 1.89 },
+      { x: 1, y: 2.77 },
+      { x: 2, y: 0.86 },
+      { x: 3, y: 3.45 },
+      { x: 4, y: 4.13 },
+      { x: 5, y: 3.59 },
+      { x: 6, y: 2.33 },
+      { x: 7, y: 3.79 },
+      { x: 8, y: 2.61 },
+      { x: 9, y: 2.15 },
+      { x: 10, y: 3.15 },
+      { x: 11, y: 4.15 },
+      { x: 12, y: 2.5 },
+    ];
+
+    const width = 240;
+    const height = 120;
+
+    const s = d3.select('#s');
+
+    s.append('rect')
+      .attr({
+        width: width,
+        height: height,
+        stroke: '#000',
+        fill: 'none',
+      });
+
+    s.attr({
+      width: 360,
+      height: 140,
+    }).style({
+      border: '1px solid #000',
+    });
+
+    const minX = d3.min(data, d => d.x);
+    const maxX = d3.max(data, d => d.x);
+    const minY = d3.min(data, d => d.y);
+    const maxY = d3.max(data, d => d.y);
+
+    const scaleX = d3.scale.linear()
+      .range([0, width])
+      .domain([0, 9]);
+
+    const scaleY = d3.scale.linear()
+      .range([height, 0]) // 左右互換 Y軸會整個上下顛倒
+      .domain([0, 5]);
+
+    const line = d3.svg.line()
+      .x(d => scaleX(d.x))
+      .y(d => scaleY(d.y));
+
+    // 這看不太出差異 -.-
+
+    const scaleX2 = d3.scale.linear()
+      .rangeRound([0, width])
+      .domain([0, 9])
+      .nice();
+
+    const scaleY2 = d3.scale.linear()
+      .rangeRound([120.667, 0.678]) // 左右互換 Y軸會整個上下顛倒
+      .domain([0, 5])
+      .nice();
+
+    const line2 = d3.svg.line()
+      .x(d => scaleX2(d.x))
+      .y(d => scaleY2(d.y));
+
+    s.append('path')
+      .attr({
+        d: line(data),
+        stroke: '#f66',
+        fill: 'none',
+      });
+
+    s.append('path')
+      .attr({
+        d: line2(data),
+        stroke: '#09c',
+        fill: 'none',
+      });
+
+    // 完全不明白這個數字變化及反轉回來的意義
+    console.log(scaleX.ticks(10));
+    console.log(scaleX.ticks(10).map(scaleX.tickFormat(1, '%')));
+  </script>
+
+</body>
+
+</html>
