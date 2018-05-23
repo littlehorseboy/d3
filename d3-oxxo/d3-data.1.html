@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+    const data = [38, 69, 72, 42, 58, 87];
+    d3.select('body')
+      .selectAll('div')
+      .data(data)
+      .enter()
+      .append('div')
+      .text(d => d)
+      .style({
+        color: (d) => {
+          if (d < 60) {
+            return 'red';
+          }
+        },
+        width: d => `${d}px`,
+        'background-color': '#ccc',
+        margin: '2px 0',
+      });
+
+    console.log(`min: ${d3.min(data)}`);
+    console.log(`max: ${d3.max(data)}`);
+    console.log(`sum: ${d3.sum(data)}`);
+    console.log(`extent: ${d3.extent(data)}`);
+    console.log(`mean: ${d3.mean(data)}`);
+    console.log(`shuffle: ${d3.shuffle(data)}`);
+  </script>
+
+</body>
+
+</html>

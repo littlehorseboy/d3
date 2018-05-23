@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+    const data = [
+      { x: 10, y: 10 },
+      { x: 50, y: 100 },
+      { x: 60, y: 50 },
+      { x: 100, y: 30 },
+    ];
+
+    const svg = d3.select('body')
+      .append('svg')
+      .attr({
+        width: 400,
+        height: 900,
+      });
+
+    const line = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y);
+
+    svg.append('path')
+      .attr({
+        d: line(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+      });
+
+    const lineLinearClosed = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('linear-closed');
+
+    svg.append('path')
+      .attr({
+        d: lineLinearClosed(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(0, 130)',
+      });
+
+    const lineStep = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('step');
+
+    svg.append('path')
+      .attr({
+        d: lineStep(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(0, 260)',
+      });
+    
+    const lineStepBefore = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('step-before');
+
+    svg.append('path')
+      .attr({
+        d: lineStepBefore(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(0, 390)',
+      });
+
+    const lineStepAfter = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('step-after');
+
+    svg.append('path')
+      .attr({
+        d: lineStepAfter(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(0, 520)',
+      });
+
+    const lineBasis = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('basis');
+
+    svg.append('path')
+      .attr({
+        d: lineBasis(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(0, 650)',
+      });
+
+    const lineBasisOpen = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('basis-open');
+
+    svg.append('path')
+      .attr({
+        d: lineBasisOpen(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(0, 780)',
+      });
+
+    const lineBasisClosed = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('basis-closed');
+
+    svg.append('path')
+      .attr({
+        d: lineBasisClosed(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(150, 0)',
+      });
+
+    const lineBundle = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('bundle');
+
+    svg.append('path')
+      .attr({
+        d: lineBundle(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(150, 130)',
+      });
+
+    const lineBundleTension = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('bundle')
+      .tension(2);
+
+    svg.append('path')
+      .attr({
+        d: lineBundleTension(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(150, 260)',
+      });
+
+    const lineCardinal = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('cardinal');
+
+    svg.append('path')
+      .attr({
+        d: lineCardinal(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(150, 390)',
+      });
+
+    const lineCardinalOpen = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('cardinal-open');
+
+    svg.append('path')
+      .attr({
+        d: lineCardinalOpen(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(150, 520)',
+      });
+
+    const lineCardinalClosed = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('cardinal-closed');
+
+    svg.append('path')
+      .attr({
+        d: lineCardinalClosed(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(150, 650)',
+      });
+
+    const lineMonotone = d3.svg.line()
+      .x(d => d.x)
+      .y(d => d.y)
+      .interpolate('monotone');
+
+    svg.append('path')
+      .attr({
+        d: lineMonotone(data),
+        y: 0,
+        stroke: '#000',
+        'stroke-width': '5px',
+        fill: 'none',
+        transform: 'translate(150, 780)',
+      });
+  </script>
+
+</body>
+
+</html>
