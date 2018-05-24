@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <svg id="s"></svg>
+
+  <script>
+    const data = [
+      { x: 0, y: 100 },
+      { x: 10, y: 154 },
+      { x: 20, y: 288 },
+      { x: 30, y: 187 },
+      { x: 40, y: 235 },
+      { x: 50, y: 198 },
+      { x: 60, y: 172 },
+      { x: 70, y: 134 },
+      { x: 80, y: 94 },
+      { x: 90, y: 88 },
+    ];
+
+    const width = 240;
+    const height = 120;
+
+    const s = d3.select('#s');
+    s.attr({
+      width: width,
+      height: height,
+    }).style({
+      border: '1px solid #000',
+    });
+
+    const scaleX = d3.scale.linear()
+      .range([0, width])
+      .domain([0, 90]);
+
+    const scaleY = d3.scale.linear()
+      .range([height, 0])
+      .domain([0, 300]);
+
+    const line = d3.svg.line()
+      .x(d => scaleX(d.x))
+      .y(d => scaleY(d.y));
+
+    s.append('path')
+      .attr({
+        d: line(data),
+        stroke: '#09c',
+        fill: 'none',
+      });
+
+    var scaleX2 = scaleX.copy();
+
+    var scaleY2 = d3.scale.linear()
+      .range([height, 0])
+      .domain([0, 350]);
+
+    var line2 = d3.svg.line()
+      .x(function(d) {
+        return scaleX2(d.x);
+      }).y(function(d) {
+        return scaleY2(d.y);
+      });
+
+    s.append('path')
+      .attr({
+        d: line2(data),
+        stroke: '#f00',
+        fill: 'none',
+      });
+  </script>
+
+</body>
+
+</html>

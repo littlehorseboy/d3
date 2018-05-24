@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <svg id="s"></svg>
+
+  <script>
+    const data = [
+      { x: 0, y: 1.89 },
+      { x: 1, y: 2.77 },
+      { x: 2, y: 0.86 },
+      { x: 3, y: 3.45 },
+      { x: 4, y: 4.13 },
+      { x: 5, y: 3.59 },
+      { x: 6, y: 2.33 },
+      { x: 7, y: 3.79 },
+      { x: 8, y: 2.61 },
+      { x: 9, y: 2.15 },
+    ];
+
+    const width = 240;
+    const height = 120;
+
+    const s = d3.select('#s');
+
+    s.attr({
+      width: 300,
+      height: 180,
+    }).style({
+      border: '1px dotted #aaa',
+    });
+
+    const scaleX = d3.scale.linear()
+      .range([0, width])
+      .domain([0, 9]);
+
+    const scaleY = d3.scale.linear()
+      .range([height, 0]) // 左右互換 Y軸會整個上下顛倒
+      .domain([0, 5]);
+
+    const line = d3.svg.line()
+      .x(d => scaleX(d.x))
+      .y(d => scaleY(d.y));
+
+    const axisX = d3.svg.axis()
+      .scale(scaleX)
+      .orient('bottom')
+      .ticks(10)
+      .tickFormat(d3.format(',%'));
+      // .tickFormat(d => `${d}n`);
+
+    const axisY = d3.svg.axis()
+      .scale(scaleY)
+      .orient('left')
+      .ticks(10)
+      .tickFormat(d => `${d}%`);;
+
+    s.append('path')
+      .attr({
+        d: line(data),
+        stroke: '#09c',
+        fill: 'none',
+        transform: 'translate(35,20)',
+      });
+
+    s.append('g')
+      .call(axisX)
+      .attr({
+        fill: 'none',
+        stroke: '#000',
+        transform: `translate(35,${height + 20})`,
+      }).selectAll('text')
+      .attr({
+        fill: '#000',
+        stroke: 'none',
+      }).style({
+        'font-size': '11px',
+      });
+
+    s.append('g')
+      .call(axisY)
+      .attr({
+        fill: 'none',
+        stroke: '#000',
+        transform: 'translate(35,20)',
+      }).selectAll('text')
+      .attr({
+        fill: '#000',
+        stroke: 'none',
+      }).style({
+        'font-size': '10px',
+      });
+  </script>
+
+</body>
+
+</html>
