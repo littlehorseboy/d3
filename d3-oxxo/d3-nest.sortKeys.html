@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+    const data = [
+      { name: 'Tome', score: 98, type: 'class1', sex: 'man' },
+      { name: 'Jack', score: 72, type: 'class2', sex: 'man' },
+      { name: 'Owen', score: 93, type: 'class3', sex: 'man' },
+      { name: 'Mark', score: 41, type: 'class4', sex: 'man' },
+      { name: 'Marry', score: 67, type: 'class4', sex: 'woman' },
+      { name: 'Rock', score: 59, type: 'class2', sex: 'man' },
+      { name: 'Jason', score: 83, type: 'class1', sex: 'man' },
+      { name: 'Peter', score: 47, type: 'class3', sex: 'man' },
+      { name: 'Cherry', score: 53, type: 'class1', sex: 'woman' },
+      { name: 'Jean', score: 68, type: 'class4', sex: 'woman' },
+    ];
+
+    const a = d3.nest()
+      .key(d => d.type)
+      .key(d => d.score)
+      .entries(data);
+
+    console.log(a);
+
+    const sortA = d3.nest()
+      .key(d => d.type)
+      .key(d => d.score)
+      .sortKeys(d3.descending)
+      .entries(data);
+
+    console.log(sortA);
+
+    const sort59A = d3.nest()
+      .key(d => d.score)
+      .sortKeys(a => a < 60)
+      .entries(data);
+
+    console.log(sort59A);
+
+    const sort60A = d3.nest()
+      .key(d => d.score)
+      .sortKeys(a => a > 60)
+      .entries(data);
+
+    console.log(sort60A);
+  </script>
+
+</body>
+
+</html>

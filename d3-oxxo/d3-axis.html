@@ -52,15 +52,17 @@
     const axisX = d3.svg.axis()
       .scale(scaleX)
       .orient('bottom')
-      .ticks(10)
-      .tickFormat(d3.format(',%'));
-      // .tickFormat(d => `${d}n`);
+      // .ticks(10)
+      .tickValues([1, 3, 5, 7, 9])
+      // .tickFormat(d3.format(',%'));
+      .tickFormat(d => `${d}n`)
+      //.tickPadding(-20);
 
     const axisY = d3.svg.axis()
       .scale(scaleY)
       .orient('left')
       .ticks(10)
-      .tickFormat(d => `${d}%`);;
+      .tickFormat(d => `${d}%`);
 
     s.append('path')
       .attr({
@@ -70,6 +72,7 @@
         transform: 'translate(35,20)',
       });
 
+    // 座標軸
     s.append('g')
       .call(axisX)
       .attr({
@@ -96,6 +99,37 @@
         stroke: 'none',
       }).style({
         'font-size': '10px',
+      });
+
+    // 格線
+    const axisXGrid = d3.svg.axis()
+      .scale(scaleX)
+      .orient('bottom')
+      .ticks(10)
+      .tickFormat('')
+      .tickSize(-height, 0);
+
+    const axisYGrid = d3.svg.axis()
+      .scale(scaleY)
+      .orient('left')
+      .ticks(10)
+      .tickFormat('')
+      .tickSize(-width, 0);
+
+    s.append('g')
+      .call(axisXGrid)
+      .attr({
+        fill: 'none',
+        stroke: 'rgba(0, 0, 0, .1)',
+        transform: `translate(35, ${height + 20})`,
+      });
+
+    s.append('g')
+      .call(axisYGrid)
+      .attr({
+        fill: 'none',
+        stroke: 'rgba(0, 0, 0, .1)',
+        transform: `translate(35, 20)`,
       });
   </script>
 

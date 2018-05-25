@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+    const data = [
+      { name: 'Tom', type: ['a', 'b', 'c'] },
+      { name: 'Jack', type: ['b,c'] },
+      { name: 'Owen', type: ['c', 'd', 'e'] },
+      { name: 'Mark', type: ['a', 'c'] },
+      { name: 'Marry', type: ['a', 'b', 'c', 'd'] },
+      { name: 'Rock', type: ['a', 'c'] },
+      { name: 'Jason', type: ['b', 'c'] },
+      { name: 'Peter', type: ['a', 'b', 'c'] },
+      { name: 'Cherry', type: ['c', 'd'] },
+      { name: 'Jean', type: ['a', 'c', 'd'] },
+    ];
+
+    // i
+    const i = d3.map(data, d => d.name);
+    const j = d3.map(data, d => d.type);
+
+    console.log(i, j);
+
+    // i has
+    console.log('has:', i.has('Tom'), i.has('Rock'), i.has('rock'), i.has('tom'));
+
+    // i get
+    console.log('get:', i.get('Tom'), i.get('Rock'), i.get('rock'), i.get('tom'));
+
+    // i set
+    console.log('set:', i.set('Tom', 'Tommy'));
+    console.log(i);
+
+    // i remove
+    // console.log('remove Tom ' + i.remove('Tom'));
+    console.log('remove Tommy', i.remove('Tommy'));
+    console.log(i);
+    console.log(data);
+
+    // keys
+    console.log('keys:', i.keys());
+
+    // values
+    console.log('values:', i.values());
+
+    // size
+    console.log('size:', i.size());
+    
+    // empty
+    console.log('empty:', i.empty());
+
+    // forEach
+    console.log('forEach:', i.forEach((item) => { console.log(item); }))
+  </script>
+
+</body>
+
+</html>
