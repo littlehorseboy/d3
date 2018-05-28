@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <div id="red"></div>
+  <div id="green"></div>
+  <div id="yellow"></div>
+  <div id="blue"></div>
+
+  <script>
+    const d = d3.selectAll('div');
+    const r = d3.select('#red');
+    const g = d3.select('#green');
+    const y = d3.select('#yellow');
+    const b = d3.select('#blue');
+
+    d.style({
+      width: '80px',
+      height: '80px',
+      display: 'inline-block',
+      margin: '3px',
+    });
+
+    // const red = d3.rgb(255, 0, 0);
+    // const green = d3.rgb(0, 255, 0);
+    // const yellow = d3.rgb(255, 255, 0);
+    // const blue = d3.rgb(0, 0, 255);
+
+    // const red = d3.rgb('red');
+    // const green = d3.rgb('green');
+    // const yellow = d3.rgb('yellow');
+    // const blue = d3.rgb('blue');
+
+    const red = d3.rgb('#ff0000');
+    const green = d3.rgb('#00ff00');
+    const yellow = d3.rgb('#ffff00');
+    const blue = d3.rgb('#0000ff');
+
+    r.style({
+      background: red,
+    });
+
+    g.style({
+      background: green,
+    });
+
+    y.style({
+      background: yellow,
+    });
+
+    b.style({
+      background: blue,
+    });
+  </script>
+
+</body>
+
+</html>
