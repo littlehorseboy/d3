@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <svg id="s"></svg>
+
+  <script>
+    const data = [
+      { x: 0, y0: 0, y1: 20 },
+      { x: 20, y0: 10, y1: 30 },
+      { x: 40, y0: 30, y1: 80 },
+      { x: 60, y0: 60, y1: 70 },
+      { x: 80, y0: 40, y1: 40 },
+      { x: 100, y0: 40, y1: 20 },
+      { x: 120, y0: 50, y1: 30 },
+      { x: 140, y0: 50, y1: 40 },
+      { x: 160, y0: 40, y1: 20 },
+    ];
+
+    const width = 240;
+    const height = 200;
+
+    const s = d3.select('#s');
+
+    s.attr({
+      width: width,
+      height: height,
+    });
+
+    const area = d3.svg.area() 
+      .x(d => d.x)
+      .y0(d => d.y0)
+      .y1(d => d.y1);
+
+    s.append('path')
+      .attr({
+        d: area(data),
+        stroke: '#c00',
+        fill: 'rgba(255, 0, 0, .3)',
+        transform: 'translate(2, 2)',
+      });
+  </script>
+
+</body>
+
+</html>

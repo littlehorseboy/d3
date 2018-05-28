@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <svg id="s"></svg>
+
+  <script>
+    const data = [
+      { x: 'a', y: 75 },
+      { x: 'b', y: 58 },
+      { x: 'c', y: 62 },
+      { x: 'd', y: 81 },
+      { x: 'e', y: 96 },
+      { x: 'f', y: 50 },
+      { x: 'g', y: 73 },
+      { x: 'h', y: 89 },
+      { x: 'i', y: 79 },
+      { x: 'j', y: 53 },
+    ];
+
+    const s = d3.select('#s');
+
+    const width = 300;
+    const height = 200;
+
+    s.attr({
+      width: width,
+      height: height + 60,
+    }).style({
+      border: '1px solid #000',
+    });
+
+    const scaleX1 = d3.scale.ordinal()
+      .domain(data.map(d => d.x))
+      .rangeBands([0, width], 1.0);
+
+    const scaleX2 = d3.scale.ordinal()
+      .domain(data.map(d => d.x))
+      .rangeBands([0, width]); // Round 如果用了 padding 參數 似乎會失效
+
+    const scaleY = d3.scale.linear()
+      .domain([0, 150])
+      .range([height, 0]);
+
+    const line1 = d3.svg.line()
+      .x(d => scaleX1(d.x))
+      .y(d => scaleY(d.y));
+
+    const line2 = d3.svg.line()
+      .x(d => scaleX2(d.x))
+      .y(d => scaleY(d.y));
+
+    s.append('path')
+      .attr({
+        d: line1(data),
+        stroke: '#09c',
+        fill: 'none',
+      });
+
+    s.append('path')
+      .attr({
+        d: line2(data),
+        stroke: '#f66',
+        fill: 'none',
+        transform: 'translate(0, 10)'
+      });
+  </script>
+
+</body>
+
+</html>

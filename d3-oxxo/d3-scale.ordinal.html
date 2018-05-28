@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <svg id="s"></svg>
+
+  <script>
+    const data = [
+      { x: 'a', y: 75 },
+      { x: 'b', y: 58 },
+      { x: 'c', y: 62 },
+      { x: 'd', y: 81 },
+      { x: 'e', y: 96 },
+      { x: 'f', y: 50 },
+      { x: 'g', y: 73 },
+      { x: 'h', y: 89 },
+      { x: 'i', y: 79 },
+      { x: 'j', y: 53 },
+    ];
+
+    const s = d3.select('#s');
+
+    const width = 500;
+    const height = 250;
+
+    s.attr({
+      width: width + 100,
+      height: height + 100,
+    }).style({
+      border: '1px solid #000',
+    });
+
+    const scaleX = d3.scale.ordinal()
+      .domain(data.map(d => d.x))
+      .rangeBands([0, width], 0, 0);
+
+    const scaleY = d3.scale.linear()
+      .domain([0, 150])
+      .range([height, 0]);
+
+    const line = d3.svg.line()
+      .x(d => scaleX(d.x))
+      .y(d => scaleY(d.y))
+      .interpolate('cardinal');
+
+    const area = d3.svg.area()
+      .x(line.x())
+      .y1(line.y())
+      .y0(scaleY(0))
+      .interpolate('cardinal');
+
+    s.append('path')
+      .attr({
+        d: area(data),
+        transform: 'translate(50, 30)',
+      }).style({
+        fill: 'rgba(150, 200, 255, .4)',
+      });
+
+    s.append('path')
+      .attr({
+        d: line(data),
+        fill: 'none',
+        stroke: '#000',
+        transform: 'translate(50, 30)',
+      });
+
+    const xAxis = d3.svg.axis().scale(scaleX).orient('bottom').ticks(10);
+    const yAxis = d3.svg.axis().scale(scaleY).orient('left').ticks(10);
+
+    s.append('g').call(xAxis)
+      .style({
+        'font-size': '12px',
+        fill: 'none',
+        stroke: '#000',
+      }).attr({
+        transform: `translate(30, ${height + 30})`,
+      }).selectAll('text').style({
+        fill: '#000',
+        stroke: 'none',
+      });
+
+    s.append('g').call(yAxis)
+      .style({
+        'font-size': '12px',
+        fill: 'none',
+        stroke: '#000',
+      }).attr({
+        transform: 'translate(30, 30)',
+      }).selectAll('text').style({
+        fill: '#000',
+        stroke: 'none',
+      });
+  </script>
+
+</body>
+
+</html>
