@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+  <button onclick="go()">go</button>
+  <br />
+<body>
+
+  <script>
+    const box1 = d3.select('body').append('div');
+    
+    const box2 = d3.select('body').append('div');
+
+    const box3 = d3.select('body').append('div');
+
+    d3.selectAll('div')
+      .style({
+        width: '50px',
+        height: '50px',
+        'margin-right': '1rem',
+        display: 'inline-block',
+        position: 'relative',
+      });
+
+    box1.style({
+      'background-color': 'red',
+    });
+
+    box2.style({
+      'background-color': 'green',
+    });
+
+    box3.style({
+      'background-color': 'blue',
+    });
+    
+    const go = () => {
+      d3.selectAll('div')
+        .style({
+          top: 0,
+        });
+
+      box1.transition()
+        .style({
+          top: '100px',
+        });
+
+      box2.transition()
+        .duration(1500)
+        .style({
+          top: '100px',
+        });
+
+      box3.transition()
+        .duration(1500)
+        .delay(1000)
+        .style({
+          top: '100px',
+        });
+    };
+
+    go();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <button onclick="go()">go</button>
+  <br>
+
+  <script>
+    const svg = d3.select('body').append('svg')
+      .attr({
+        width: '100%',
+        height: '250px',
+      });
+
+    const boxArray = [];  
+
+    for (let i = 0; i < 14 * 100; i += 1 * 100) {
+      const box = svg.append('rect')
+        .attr({
+          x: i,
+        });
+      boxArray.push(box);
+    }
+
+    svg.selectAll('rect')
+      .attr({
+        width: '90px',
+        height: '90px',
+        fill: '#00cc00',
+      });
+
+    const go = () => {
+      svg.selectAll('rect')
+        .attr({
+          y: 0,
+        });
+
+      boxArray[0].transition()
+        .duration(1500)
+        .ease('linear')
+        .attr({
+          y: 100,
+        });
+
+      boxArray[1].transition()
+        .duration(1500)
+        .ease('poly', 2)
+        .attr({
+          y: 100,
+        });
+
+      boxArray[2].transition()
+        .duration(1500)
+        .ease('quad')
+        .attr({
+          y: 100,
+        });
+
+      boxArray[3].transition()
+        .duration(1500)
+        .ease('cubic')
+        .attr({
+          y: 100,
+        });
+
+      boxArray[4].transition()
+        .duration(1500)
+        .ease('sin')
+        .attr({
+          y: 100,
+        });
+
+      boxArray[5].transition()
+        .duration(1500)
+        .ease('exp')
+        .attr({
+          y: 100,
+        });
+
+      boxArray[6].transition()
+        .duration(1500)
+        .ease('circle')
+        .attr({
+          y: 100,
+        });
+
+      boxArray[7].transition()
+        .duration(1500)
+        .ease('elastic')
+        .attr({
+          y: 100,
+        });
+
+      boxArray[8].transition()
+        .duration(1500)
+        .ease('back')
+        .attr({
+          y: 100,
+        });
+
+      boxArray[9].transition()
+        .duration(1500)
+        .ease('bounce')
+        .attr({
+          y: 100,
+        });
+
+      boxArray[10].transition()
+        .duration(1500)
+        .ease('cubic-in')
+        .attr({
+          y: 100,
+        });
+
+      boxArray[11].transition()
+        .duration(1500)
+        .ease('cubic-out')
+        .attr({
+          y: 100,
+        });
+
+      boxArray[12].transition()
+        .duration(1500)
+        .ease('cubic-in-out')
+        .attr({
+          y: 100,
+        });
+
+      boxArray[13].transition()
+        .duration(1500)
+        .ease('cubic-out-in')
+        .attr({
+          y: 100,
+        });
+    };
+
+    go();
+  </script>
+
+</body>
+
+</html>

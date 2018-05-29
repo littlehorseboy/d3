@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <button onclick="go()">go</button>
+  <button onclick="box3Interrupt()">box3Interrupt</button>
+  <br>
+
+  <script>
+    const svg = d3.select('body').append('svg')
+      .attr({
+        width: '100%',
+        height: '250px',
+      });
+
+    const box1 = svg.append('rect')
+      .attr({ x: 100 });
+    
+    const box2 = svg.append('rect')
+      .attr({ x: 200 });
+
+    const box3 = svg.append('rect')
+      .attr({ x: 300 });
+
+    svg.selectAll('rect')
+      .attr({
+        width: '90px',
+        height: '90px',
+      });
+
+    box1.attr({
+        fill: 'red',
+      });
+
+    box2.attr({
+        fill: 'green',
+      });
+
+    box3.attr({
+        fill: 'blue',
+      });
+      
+    const go = () => {
+      const foo = (t) => {
+        t.attr({
+          y: 100,
+        })
+      };
+
+      svg.selectAll('rect')
+        .attr({
+          y: 0,
+        });
+
+      box1.transition()
+        .call(foo)
+        .each('start', () => {
+          box1.style({
+            stroke: '#000',
+            'stroke-width': 5,
+          });
+        });
+
+      box2.transition()
+        .duration(1500)
+        .call(foo)
+        .each('end', () => {
+          box2.style({
+            stroke: '#000',
+            'stroke-width': 5,
+          });
+        });
+
+      box3.transition()
+        .duration(1500)
+        .delay(1000)
+        .call(foo)
+        .each('interrupt', () => {
+          box3.style({
+            stroke: '#000',
+            'stroke-width': 5,
+          });
+        });
+    };
+
+    const box3Interrupt = () => {
+      let x = 500;
+      if (box3.style('x') === '500px') {
+        x = 300;
+      }
+      box3.transition()
+        .duration(3000)
+        .style({
+          x: x,
+        });
+    };
+  </script>
+
+</body>
+
+</html>

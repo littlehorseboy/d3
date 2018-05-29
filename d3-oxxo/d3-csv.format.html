@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+    const csvFormat = [
+      { sex: "male", name: "Jack", score: 88 },
+      { sex: "female", name: "Marry", score: 65 },
+      { sex: "female", name: "Cherry", score: 74 },
+      { sex: "male", name: "Owen", score: 95 },
+      { sex: "male", name: "Jason", score: 87 },
+      { sex: "male", name: "Bill", score: 61 },
+      { sex: "female", name: "Amy", score: 69 },
+      { sex: "female", name: "Mia", score: 74 },
+      { sex: "male", name: "Peter", score: 86 }
+    ];
+
+    const pre = d3.select('body').append('pre')
+      .text(() => d3.csv.format(csvFormat));
+    
+    const csvFormatRows = [
+      ['male', 'Bill', 80],
+      ['female', 'Jean', 78],
+      ['male', 'Oweb', 92],
+    ];
+
+    const pre2 = d3.select('body').append('pre')
+      .text(() => d3.csv.formatRows(csvFormatRows));
+  </script>
+
+</body>
+
+</html>

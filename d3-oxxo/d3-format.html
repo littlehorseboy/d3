@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+    const _e = d3.format('e'); // 數字的指數 (使用 Number.parseFloat(x).toExponential(f);)
+    console.log('const _e = d3.format(\'e\')');
+    console.log(_e(100));
+    console.log(_e(10));
+    console.log(_e(1));
+    console.log(_e(0.1));
+    console.log(_e(0.01));
+    console.log(_e(-10));
+    console.log(_e(-0.01));
+    console.log('===========================');
+    const _g1 = d3.format('.9g'); // 指定有幾個位數 (使用 Number.parseFloat(x).toPrecision(4))
+    console.log('const _g1 = d3.format(\'.9g\')');
+    console.log(_g1(10000));
+    console.log(_g1(10));
+    console.log(_g1(1));
+    console.log(_g1(0.01));
+    console.log(_g1(0.0001));
+    console.log(_g1(-10));
+    console.log(_g1(-0.01));
+    console.log('===========================');
+    const _g2 = d3.format('5g'); // 指定有幾個位數 (使用 Number.parseFloat(x).toPrecision(4))
+    console.log('const _g2 = d3.format(\'5g\')');
+    console.log(_g2(10000));
+    console.log(_g2(10));
+    console.log(_g2(1));
+    console.log(_g2(0.01));
+    console.log(_g2(0.0001));
+    console.log(_g2(-10));
+    console.log(_g2(-0.01));
+    console.log('===========================');
+    const _f1 = d3.format('.6f'); // 指定小數點後有幾位數 (使用 Number.parseFloat(x).toFixed(2))
+    console.log('const _f1 = d3.format(\'.6f\')');
+    console.log(_f1(10000));
+    console.log(_f1(10));
+    console.log(_f1(1));
+    console.log(_f1(0.01));
+    console.log(_f1(0.0001));
+    console.log(_f1(-10));
+    console.log(_f1(-0.01));
+    console.log('===========================');
+    const _f2 = d3.format('6f'); // 指定小數點後有幾位數 (使用 Number.parseFloat(x).toFixed(2))
+    console.log('const _f2 = d3.format(\'6f\')');
+    console.log(_f2(10000));
+    console.log(_f2(10));
+    console.log(_f2(1));
+    console.log(_f2(0.01));
+    console.log(_f2(0.0001));
+    console.log(_f2(-10));
+    console.log(_f2(-0.01));
+    console.log('===========================');
+    const _d1 = d3.format('d'); // 返回這個數字的字串格式，忽略任何非整數值 ( 使用 Number.toString )
+    console.log('const _d1 = d3.format(\'d\')');
+    console.log(_d1(10000));
+    console.log(_d1(10));
+    console.log(_d1(1));
+    console.log(_d1(0.01));
+    console.log(_d1(0.0001));
+    console.log(_d1(-10));
+    console.log(_d1(-0.01));
+    console.log('===========================');
+    const _d2 = d3.format('6d'); // 返回這個數字的字串格式，忽略任何非整數值 ( 使用 Number.toString )
+    console.log('const _d2 = d3.format(\'6d\')');
+    console.log(_d2(10000));
+    console.log(_d2(10));
+    console.log(_d2(1));
+    console.log(_d2(0.01));
+    console.log(_d2(0.0001));
+    console.log(_d2(-10));
+    console.log(_d2(-0.01));
+    console.log('===========================');
+    // 未完 http://www.oxxostudio.tw/articles/201501/svg-d3-12-formatting.html
+  </script>
+
+</body>
+
+</html>

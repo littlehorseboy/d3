@@ -22,6 +22,30 @@
         console.log(error);
       } else {
         console.log(rows);
+        console.log(d3.csv.format(rows));
+        const s = d3.select('body').append('svg')
+          .attr({
+            width: '600px',
+            height: '350px',
+          });
+        
+        let x = 0;
+        const line = d3.svg.line()
+          .x(d => {
+            x += 20;
+            return x;
+          })
+          .y(d => d.分數);
+
+        s.append('path')
+          .attr({
+            d: line(rows),
+            fill: 'none',
+            stroke: '#000',
+            'stroke-width': '2px',
+          });
+
+        x += 10;
       }
     });
   </script>

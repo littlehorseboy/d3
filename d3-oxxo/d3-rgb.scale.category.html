@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <div id="div1">1</div>
+  <div id="div2">2</div>
+  <div id="div3">3</div>
+  <div id="div4">4</div>
+  <div id="div5">5</div>
+  <div id="div6">6</div>
+  <div id="div7">7</div>
+  <div id="div8">8</div>
+  <div id="div9">9</div>
+  <div id="div10">10</div>
+  <div id="div11">11</div>
+  <div id="div12">12</div>
+
+  <script>
+    const d = d3.selectAll('div'),
+      div1 = d3.select('#div1'),
+      div2 = d3.select('#div2'),
+      div3 = d3.select('#div3'),
+      div4 = d3.select('#div4'),
+      div5 = d3.select('#div5'),
+      div6 = d3.select('#div6'),
+      div7 = d3.select('#div7'),
+      div8 = d3.select('#div8'),
+      div9 = d3.select('#div9'),
+      div10 = d3.select('#div10');
+      div11 = d3.select('#div11');
+      div12 = d3.select('#div12');
+
+    d.style({
+      width: '50px',
+      height: '50px',
+      display: 'inline-block',
+      margin: '2px',
+      'line-height': '50px',
+      color: '#fff',
+      'text-align': 'center',
+    });
+
+    const color = d3.scale.category20b();
+
+    div1.style({ background: color(1) });
+    div2.style({ background: color(2) });
+    div3.style({ background: color(3) });
+    div4.style({ background: color(4) });
+    div5.style({ background: color(5) });
+    div6.style({ background: color(6) });
+    div7.style({ background: color(7) });
+    div8.style({ background: color(8) });
+    div9.style({ background: color(9) });
+    div10.style({ background: color(10) });
+    div11.style({ background: color(11) });
+    div12.style({ background: color(12) });
+  </script>
+
+</body>
+
+</html>
