@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+    const data = [
+      { x: 1, w: Math.floor(Math.random() * 200) },
+      { x: 2, w: Math.floor(Math.random() * 200) },
+      { x: 3, w: Math.floor(Math.random() * 200) },
+      { x: 4, w: Math.floor(Math.random() * 200) },
+      { x: 5, w: Math.floor(Math.random() * 200) },
+    ];
+
+    const s = d3.select('body').append('svg')
+      .attr({
+        width: 300,
+        height: 300,
+      });
+
+    s.selectAll('rect')
+      .data(data)
+      .enter()
+      .append('rect')
+      .attr({
+        fill: '#09c',
+        width(d) {
+          return d.w;
+        },
+        height: 30,
+        x: 0,
+        y(d) {
+          return (d.x - 1) * 35;
+        }
+      });
+  </script>
+
+</body>
+
+</html>

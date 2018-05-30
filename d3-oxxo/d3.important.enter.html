@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <div></div>
+  <div></div>
+  <div></div>
+
+  <script>
+    // 只有三個 div , array 卻有五個資料
+    const data = [1, 2, 3, 4, 5];
+
+    const d = d3.select('body').selectAll('div')
+      .data(data) // 三個 div 依序填入 array 元素
+      .text(d => `update: ${d}`)
+      .enter() // 將剩下的 array 元素 整理出來應用
+      .append('div')
+      .text(d => `enter: ${d}`);
+
+    // const update = d.data(data);
+    // console.log(update);
+
+    // const enter = update.enter();
+    // console.log(enter);
+
+    // update.text(d => `update: ${d}`);
+
+    // enter.append('div')
+    //   .text(d => `enter: ${d}`);
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+    const w = 800;
+    const h = 400;
+    let x, y, s; // 紀錄目前的 x, y, 以及 scale
+
+    // 畫一堆圓形
+    const data = [
+      { cx: 150, cy: 210, r: 50, fill: '#ff0000' },
+      { cx: 75, cy: 55, r: 40, fill: '#00cc00' },
+      { cx: 200, cy: 35, r: 30, fill: '#0000ff' },
+      { cx: 650, cy: 190, r: 70, fill: '#0099cc' },
+      { cx: 300, cy: 200, r: 30, fill: '#ff9900' },
+    ];
+    
+    const zoom = d3.behavior.zoom()
+      .translate([0, 0])
+      .scaleExtent([1, 10])
+      .scale(1)
+      .on('zoom', zoomed);
+
+    // 改變 translate 及 scale 並 紀錄
+    function zoomed() {
+      x = d3.event.translate[0];
+      y = d3.event.translate[1];
+      s = d3.event.scale;
+      container.attr('transform', `translate(${d3.event.translate}) scale(${d3.event.scale})`);
+    }
+
+    // 回到預設 x y scale
+    const btn = d3.select('body').append('button')
+      .text('reset')
+      .on('click', () => {
+        d3.transition().duration(500).tween('zoom', () => {
+          const si = d3.interpolate(s, 1);
+          const xi = d3.interpolate(x, 0);
+          const yi = d3.interpolate(y, 0);
+
+          return (t) => {
+            svg.call(zoom.translate([xi(t), yi(t)]).scale(si(t)).event);
+          };
+        });
+      });
+
+    d3.select('body').append('br');
+    d3.select('body').append('br');
+
+    const svg = d3.select('body').append('svg')
+      .attr({
+        width: w,
+        height: h,
+      }).style({
+        border: '1px solid #000',
+      }).call(zoom);
+
+    const container = svg.append('g');
+
+    // 格線
+    container.append('g')
+      .selectAll('line')
+      .data(d3.range(0, w, 30))
+      .enter()
+      .append('line')
+      .attr({
+        x1: d => d,
+        y1: 0,
+        x2: d => d,
+        y2: h,
+        stroke: '#ddd',
+        fill: 'none',
+      });
+
+    // 格線
+    container.append('g')
+      .selectAll('line')
+      .data(d3.range(0, h, 30))
+      .enter()
+      .append('line')
+      .attr({
+        x1: 0,
+        y1: d => d,
+        x2: w,
+        y2: d => d,
+        stroke: '#ddd',
+        fill: 'none',
+      });
+
+    // 一堆圓形
+    container.append('g')
+      .selectAll('circle')
+      .data(data)
+      .enter()
+      .append('circle')
+      .attr({
+        cx: d => d.cx,
+        cy: d => d.cy,
+        r: d => d.r,
+        fill: d => d.fill,
+      })
+      .style({
+        cursor: 'pointer',
+      });
+
+    d3.selectAll('circle').on('click', function() {
+      const circle = d3.select(this);
+      circle.transition().duration(500).tween('zoom', function() {
+        const r = this.getAttribute('r') * 1;
+        const cx = this.getAttribute('cx') * 1;
+        const cy = this.getAttribute('cy') * 1;
+
+        const si = d3.interpolate(s, 4);
+        const xi = d3.interpolate(x, (w - r) / 2 - 4 * cx);
+        const yi = d3.interpolate(y, (h - r) / 2 - 4 * cy);
+
+        return (t) => {
+          svg.call(zoom.translate([xi(t), yi(t)]).scale([si(t)]).event);
+        };
+      });
+    });
+  </script>
+
+</body>
+
+</html>

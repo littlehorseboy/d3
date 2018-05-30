@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+    const box1 = d3.select('body').append('div');
+    const box2 = d3.select('body').append('div');
+    const box3 = d3.select('body').append('div');
+    const box4 = d3.select('body').append('div');
+    const box5 = d3.select('body').append('div');
+    const box6 = d3.select('body').append('div');
+    const svg = d3.select('body').append('svg').attr({
+      width: '300px',
+      height: '300px',
+    }).style({
+      border: '1px solid #000'
+    });
+    const rect = svg.append('rect').attr({
+      width: 50,
+      height: 50,
+      stroke: '#000',
+      fill: 'none',
+    });
+
+    d3.selectAll('div')
+      .style({
+        'font-size': '3rem',
+        color: 'white',
+        'background-color': 'black',
+        margin: '0.5rem',
+        padding: '0.5rem',
+        position: 'relative',
+      });
+
+    svg
+
+    var ni = d3.interpolate(0, 200);
+    var si = d3.interpolate('Apple1', 'Apple5');
+    var ci = d3.interpolateRgb('#ff0000', '#00ffff');
+    var si2 = d3.interpolate('Hello 123 World', 'Cool 456');
+    var ai = d3.interpolateArray([0, 1], [1, 50, 100]);
+    var oi = d3.interpolateObject({ x: 0, y: 1 }, { x: 1, y: 50, z: 100 });
+    var ti = d3.interpolateTransform(d3.transform('translate(10, 10)'), d3.transform('translate(80, 80)'));
+
+    box1.text(ni(0)).transition().duration(2000).delay(1000)
+      .tween('string', () => {
+        return (t) => {
+          box1.text(ni(t));
+        };
+      });
+    box2.text(si(0)).transition().duration(2000).delay(1000)
+      .tween('string', () => {
+        return (t) => {
+          box2.text(si(t));
+        };
+      });
+    box3.text(ci(0)).transition().duration(2000).delay(1000)
+      .tween('string', () => {
+        return (t) => {
+          box3.text(ci(t));
+          box3.style({
+            'background-color': ci(t),
+          });
+        };
+      });
+    box4.text(si2(0)).transition().duration(2000).delay(1000)
+      .tween('string', () => {
+        return (t) => {
+          box4.text(si2(t));
+        };
+      });
+    box5.text(ai(0)).transition().duration(2000).delay(1000)
+      .tween('string', () => {
+        return (t) => {
+          box5.text(ai(t));
+        };
+      });
+    box6.text(oi(0)).transition().duration(2000).delay(1000)
+      .tween('string', () => {
+        return (t) => {
+          box6.text(JSON.stringify(oi(t)));
+        };
+      });
+
+    rect.text(ti(0)).transition().duration(2000).delay(1000)
+      .tween('string', () => {
+        return (t) => {
+          rect.text(ti(t));
+          rect.attr({
+            'transform': ti(t),
+          });
+        };
+      });
+  </script>
+
+</body>
+
+</html>
