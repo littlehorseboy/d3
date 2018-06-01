@@ -1,0 +1,233 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <!-- <script src="http://data.tainan.gov.tw/api/action/datastore_search?resource_id=fb2e5df8-d5dc-42d6-9fc2-8d638205a7aa&jsonp=parseResponse"></script> -->
+
+  <script>
+    // JSONP
+    const callbackMethodName = 'cb';
+    window[callbackMethodName] = (data) => {
+      console.log(data);
+      // 
+      const day = d3.nest()
+        .key(d => d.確診日)
+        .entries(data.result.records);
+
+      for (let i = 0; i < day.length; i += 1) {
+        if (i < 9) {
+          day[i]._id = `0${i + 1}`;
+        } else {
+          day[i]._id = i + 1 + '';
+        }
+      }
+
+      console.log(day);
+
+      // 
+      const dayById = d3.nest()
+        .key(d => d._id)
+        .sortKeys(d3.descending)
+        .entries(day);
+
+      for (let i = 0; i < dayById.length; i += 1) {
+        dayById[i]._id = i + 1;
+      }
+
+      console.log(dayById);
+
+      const s = d3.select('body').append('svg')
+        .attr({
+          width: 800,
+          height: day.length * 15 + 20,
+        })
+        .style({
+          border: '1px solid #000',
+        });
+      const rect = s.append('g')
+        .attr({
+          id: 'rect',
+        });
+      const num = s.append('g')
+        .attr({
+          id: 'num',
+        });
+      const date = s.append('g')
+        .attr({
+          id: 'date',
+        });
+
+      rect.selectAll('rect')
+        .data(dayById)
+        .enter()
+        .append('rect')
+        .attr({
+          width: d => d.values[0].values.length,
+          height: 10,
+          fill: d => {
+            if (d.values[0].values.length > 300) {
+              return '#c00';
+            } else if (d.values[0].values.length > 200 && d.values[0].values.length <= 300) {
+              return '#f90';
+            } else if (d.values[0].values.length > 100 && d.values[0].values.length <= 200) {
+              return '#aa0';
+            } else if (d.values[0].values.length > 50 && d.values[0].values.length <= 100) {
+              return '#ac0';
+            } else {
+              return '#6c0';
+            }
+          },
+          x: 100,
+          y: d => d._id * 15,
+        });
+
+      num.selectAll('text')
+        .data(dayById)
+        .enter()
+        .append('text')
+        .attr({
+          fill: '#000',
+          x: d => d.values[0].values.length + 105,
+          y: d => d._id * 15 + 10,
+        })
+        .text(d => d.values[0].values.length)
+        .style({
+          'font-size': '12px',
+        });
+
+      date.selectAll('text')
+        .data(dayById)
+        .enter()
+        .append('text')
+        .attr({
+          fill: '#000',
+          'text-anchor': 'end',
+          x: 90,
+          y: d => d._id * 15 + 10,
+        })
+        .text(d => d.values[0].key)
+        .style({
+          'font-size': '12px',
+        });
+    };
+
+    const sc = document.createElement('script');
+    sc.id = callbackMethodName;
+    sc.src = `http://data.tainan.gov.tw/api/action/datastore_search_sql?sql=SELECT * from "fb2e5df8-d5dc-42d6-9fc2-8d638205a7aa"
+WHERE 1=1&callback=${callbackMethodName}`;
+    document.body.appendChild(sc);
+    document.querySelector(`#${sc.id}`).remove();
+    // end JSONP
+
+    // const data = [
+    //   { x: 1, w: Math.floor(Math.random() * 200) },
+    //   { x: 2, w: Math.floor(Math.random() * 200) },
+    //   { x: 3, w: Math.floor(Math.random() * 200) },
+    //   { x: 4, w: Math.floor(Math.random() * 200) },
+    //   { x: 5, w: Math.floor(Math.random() * 200) },
+    // ];
+
+    // const newNumber = [0, 0, 0, 0, 0]; // 紀錄目前的數值 做為動畫的起點 在 tween 時作用及改變
+
+    // const newNumberBtn = d3.select('body').append('button')
+    //   .text('產生數據')
+    //   .on('click', () => {
+    //     for (let i = 0; i < 5; i += 1) {
+    //       data[i].w = Math.floor(Math.random() * 200);
+    //     }
+
+    //     initTransition(data);
+    //   });
+
+    // const zeroNumberBtn = d3.select('body').append('button')
+    //   .text('數據歸零')
+    //   .on('click', () => {
+    //     for (let i = 0; i < 5; i += 1) {
+    //       data[i].w = 0;
+    //     }
+
+    //     initTransition(data);
+    //   });
+
+    // d3.select('body').append('br');
+    // d3.select('body').append('br');
+
+    // const s = d3.select('body').append('svg')
+    //   .attr({
+    //     width: 300,
+    //     height: 300,
+    //   });
+
+    // s.selectAll('rect')
+    //   .data(data)
+    //   .enter()
+    //   .append('rect')
+    //   .attr({
+    //     fill: '#09c',
+    //     width: 0,
+    //     height: 30, // 高度
+    //     x: 0,
+    //     y: d => (d.x - 1) * 40, // -1 會讓第一點為 0, * 40 將 y 座標放大 以對應高度
+    //   })
+    //   .transition()
+    //   .duration(1500)
+    //   .attr({
+    //     width: d => d.w,
+    //   });
+
+    // s.selectAll('text')
+    //   .data(data)
+    //   .enter()
+    //   .append('text')
+    //   .text('0')
+    //   .attr({
+    //     fill: '#000',
+    //     x: d => 3, // rect width 多一點點的位置
+    //     y: d => d.x * 40 - 20, // 減 * 上的數字的一半 得以置中
+    //   })
+    //   .transition()
+    //   .duration(1500)
+    //   .attr({
+    //     x: d => d.w + 3
+    //   })
+    //   .tween('number', function(d) {
+    //     const i = d3.interpolateRound(newNumber[d.x - 1], d.w);
+    //     newNumber[d.x - 1] = d.w;
+    //     return t => this.textContent = i(t);
+    //   });
+
+    // const initTransition = (data) => {
+    //   s.selectAll('rect')
+    //     .data(data)
+    //     .transition()
+    //     .duration(1500)
+    //     .attr({
+    //       width: d => d.w,
+    //     });
+
+    //   s.selectAll('text')
+    //     .data(data)
+    //     .transition()
+    //     .duration(1500)
+    //     .attr({
+    //       x: d => d.w + 3
+    //     })
+    //     .tween('number', function(d) {
+    //       const i = d3.interpolateRound(newNumber[d.x - 1], d.w);
+    //       newNumber[d.x - 1] = d.w;
+    //       return t => this.textContent = i(t);
+    //     });
+    // };
+  </script>
+
+</body>
+
+</html>

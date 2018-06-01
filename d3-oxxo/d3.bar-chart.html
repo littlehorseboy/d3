@@ -20,6 +20,31 @@
       { x: 5, w: Math.floor(Math.random() * 200) },
     ];
 
+    const newNumber = [0, 0, 0, 0, 0]; // 紀錄目前的數值 做為動畫的起點 在 tween 時作用及改變
+
+    const newNumberBtn = d3.select('body').append('button')
+      .text('產生數據')
+      .on('click', () => {
+        for (let i = 0; i < 5; i += 1) {
+          data[i].w = Math.floor(Math.random() * 200);
+        }
+
+        initTransition(data);
+      });
+
+    const zeroNumberBtn = d3.select('body').append('button')
+      .text('數據歸零')
+      .on('click', () => {
+        for (let i = 0; i < 5; i += 1) {
+          data[i].w = 0;
+        }
+
+        initTransition(data);
+      });
+
+    d3.select('body').append('br');
+    d3.select('body').append('br');
+
     const s = d3.select('body').append('svg')
       .attr({
         width: 300,
@@ -32,15 +57,60 @@
       .append('rect')
       .attr({
         fill: '#09c',
-        width(d) {
-          return d.w;
-        },
-        height: 30,
+        width: 0,
+        height: 30, // 高度
         x: 0,
-        y(d) {
-          return (d.x - 1) * 35;
-        }
+        y: d => (d.x - 1) * 40, // -1 會讓第一點為 0, * 40 將 y 座標放大 以對應高度
+      })
+      .transition()
+      .duration(1500)
+      .attr({
+        width: d => d.w,
       });
+
+    s.selectAll('text')
+      .data(data)
+      .enter()
+      .append('text')
+      .text('0')
+      .attr({
+        fill: '#000',
+        x: d => 3, // rect width 多一點點的位置
+        y: d => d.x * 40 - 20, // 減 * 上的數字的一半 得以置中
+      })
+      .transition()
+      .duration(1500)
+      .attr({
+        x: d => d.w + 3
+      })
+      .tween('number', function(d) {
+        const i = d3.interpolateRound(newNumber[d.x - 1], d.w);
+        newNumber[d.x - 1] = d.w;
+        return t => this.textContent = i(t);
+      });
+
+    const initTransition = (data) => {
+      s.selectAll('rect')
+        .data(data)
+        .transition()
+        .duration(1500)
+        .attr({
+          width: d => d.w,
+        });
+
+      s.selectAll('text')
+        .data(data)
+        .transition()
+        .duration(1500)
+        .attr({
+          x: d => d.w + 3
+        })
+        .tween('number', function(d) {
+          const i = d3.interpolateRound(newNumber[d.x - 1], d.w);
+          newNumber[d.x - 1] = d.w;
+          return t => this.textContent = i(t);
+        });
+    };
   </script>
 
 </body>
