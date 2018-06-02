@@ -1,0 +1,190 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>d3</title>
+
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <div id="buttonDiv"></div>
+
+  <script src="http://momentjs.com/downloads/moment.js"></script>
+  <script>
+    // 默認的 d3.ascending 是按字母順序排序 所以新增此擴充比對方法
+    const ascending = (a, b) => {
+      return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
+    };
+
+    // 默認的 d3.descending 是按字母順序排序 所以新增此擴充比對方法
+    const descending = (a, b) => {
+      return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
+    };
+
+    // JSONP
+    const callbackMethodName = 'cb';
+    window[callbackMethodName] = (data) => {
+      const area = d3.nest()
+      .key(d => d.區別)
+      .entries(data.result.records);
+
+      console.log(area);
+
+      d3.select('#buttonDiv').selectAll('button')
+        .data(area)
+        .enter()
+        .append('button')
+        .text(d => `${d.key} ( ${d.values.length} )`)
+        .style({
+          margin: '2px',
+          padding: '5px',
+        })
+        .on('click', function(d) {
+          d3.selectAll('button').style({
+            'background-color': '#ddd',
+            color: 'black',
+          })
+          this.style.backgroundColor = '#666';
+          this.style.color = 'white';
+          draw(d.values);
+        });
+      
+      const draw = (drawData) => {
+        d3.select('svg').remove();
+
+        // 依照確診日排序 nest
+        const day = d3.nest()
+          .key(d => d.確診日)
+          .sortKeys(descending)
+          .entries(drawData);
+
+        // 為日期排序完的資料 定義一個 y軸的間距
+        for (let i = 0; i < day.length; i += 1) {
+          if (i < 9) {
+            day[i]._id = `0${i + 1}`;
+          } else {
+            day[i]._id = i + 1 + '';
+          }
+        }
+
+        console.log(day);
+
+        const s = d3.select('body').append('svg')
+          .attr({
+            width: 800,
+            height: day.length * 15 + 20,
+          })
+          .style({
+            border: '1px solid #000',
+          });
+        const rect = s.append('g')
+          .attr({
+            id: 'rect',
+          });
+        const num = s.append('g')
+          .attr({
+            id: 'num',
+          });
+        const date = s.append('g')
+          .attr({
+            id: 'date',
+          });
+
+        rect.selectAll('rect')
+          .data(day)
+          .enter()
+          .append('rect')
+          .attr({
+            width: d => 0,
+            height: 10,
+            fill: d => {
+              if (d.values.length > 300) {
+                return '#c00';
+              } else if (d.values.length > 200 && d.values.length <= 300) {
+                return '#f90';
+              } else if (d.values.length > 100 && d.values.length <= 200) {
+                return '#aa0';
+              } else if (d.values.length > 50 && d.values.length <= 100) {
+                return '#ac0';
+              } else {
+                return '#6c0';
+              }
+            },
+            x: 100,
+            y: d => d._id * 15,
+          })
+          .transition()
+          .duration(1000)
+          .attr({
+            width: d => d.values.length,
+          });
+
+        num.selectAll('text')
+          .data(day)
+          .enter()
+          .append('text')
+          .attr({
+            fill: '#000',
+            x: 105,
+            y: d => d._id * 15 + 10,
+          })
+          .text(0)
+          .style({
+            'font-size': '12px',
+          })
+          .transition()
+          .duration(1000)
+          .attr({
+            x: d => d.values.length + 105,
+          })
+          .tween('number', function (d) {
+            const i = d3.interpolateRound(0, d.values.length);
+            return t => this.textContent = i(t);
+          });
+
+        date.selectAll('text')
+          .data(day)
+          .enter()
+          .append('text')
+          .attr({
+            fill: '#000',
+            'text-anchor': 'end',
+            x: 80,
+            y: d => d._id * 15 + 10,
+          })
+          .text(d => {
+            if (moment(d.key).format() !== 'Invalid date') {
+              return moment(d.key).format('YYYY-MM-DD');
+            } else {
+              return '';
+            }
+          })
+          .style({
+            'font-size': '12px',
+          });
+      };
+    };
+
+    const sc = document.createElement('script');
+    sc.id = callbackMethodName;
+    sc.src = `http://data.tainan.gov.tw/api/action/datastore_search_sql?sql=SELECT * from "fb2e5df8-d5dc-42d6-9fc2-8d638205a7aa"
+WHERE 1=1&callback=${callbackMethodName}`;
+    sc.onload = (e) => {
+      document.querySelector(`#${sc.id}`).remove();
+    };
+
+    try {
+      document.body.appendChild(sc); // 抓不到錯誤 好奇怪 好麻煩 網路查到的都是 fetch -.-
+    } catch (e) {
+      console.error(`customErrorLog: ${e}`);
+    }
+
+    // end JSONP
+  </script>
+
+</body>
+
+</html>
