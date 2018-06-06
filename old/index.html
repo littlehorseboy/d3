@@ -1,0 +1,33 @@
+<body>
+  <div></div>
+</body>
+
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script>
+  var death_rate = [
+    ['越南', 24.26],
+    ['阿魯巴', 17.48],
+    ['關島', 10.01],
+    ['澳門', 5.84]
+  ];
+
+  // html 結構上有一層 div 先針對原有的結構增加內容 再對 多出的資料 enter 新增結構及內容
+  d3.select('body').selectAll('div')
+    .data(death_rate)
+    .text((d, i) => `${i} / ${d[0]}`)
+    .style({
+      height: '20px',
+      'background-color': 'red',
+      margin: '5px',
+      width: (d => `${d[1] * 10}px`)
+    })
+    .enter()
+    .append('div')
+    .text((d, i) => `${i} / ${d[0]}`)
+    .style({
+      height: '20px',
+      'background-color': 'red',
+      margin: '5px',
+      width: (d => `${d[1] * 10}px`)
+    });
+</script>
